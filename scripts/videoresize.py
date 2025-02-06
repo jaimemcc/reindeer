@@ -17,7 +17,7 @@ def generate_letter_sequence():
             
 def get_newfilename(frame, cam_number, outputfolder):
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    gray_frame_reduced = gray_frame[1040:,1610:]
+    gray_frame_reduced = gray_frame[1040:,1612:]
     
     time_str = pytesseract.image_to_string(gray_frame_reduced)
     datetime_obj = datetime.strptime(time_str.strip(), '%m/%d/%Y %I:%M%p')
@@ -30,7 +30,7 @@ def get_newfilename(frame, cam_number, outputfolder):
     suffix_gen = generate_letter_sequence()
     while newfilename.exists():
         suffix = next(suffix_gen)
-        newfilename = outputfolder / f"{formatted_date}_{cam_number}_{suffix}.MP4"
+        newfilename = outputfolder / f"{formatted_date}{suffix}_{cam_number}.MP4"
     
     return newfilename
 
@@ -67,7 +67,7 @@ if __name__ == "__main__":
     parser.add_argument("-f", "--filename", type=str, help="Path to the input video file.")
     parser.add_argument("-d", "--directory", type=str, help="Path to the input video file.")
     parser.add_argument("-s", "--scale", type=float, help="Scale factor for resizing the video.")
-    parser.add_argument("-c", "--cam_number", type=int, help="Camera number to include in the output filename.")
+    parser.add_argument("-c", "--cam_number", type=str, help="Camera number to include in the output filename.")
     parser.add_argument("-o-", "--outputfolder", type=str, help="Path to the output folder.", default=None)
 
     args = parser.parse_args()
