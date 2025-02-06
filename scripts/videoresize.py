@@ -6,9 +6,15 @@ import cv2
 import pytesseract
 from datetime import datetime
 import subprocess
+import itertools
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\\Users\\jmc010\\AppData\\Local\\Programs\\Tesseract-OCR\\tesseract.exe'
 
+def generate_letter_sequence():
+    for length in itertools.count(1):
+        for letters in itertools.product('abcdefghijklmnopqrstuvwxyz', repeat=length):
+            yield ''.join(letters)
+            
 def get_newfilename(frame, cam_number, outputfolder):
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     gray_frame_reduced = gray_frame[1040:,1610:]
@@ -20,6 +26,12 @@ def get_newfilename(frame, cam_number, outputfolder):
     # need to check if already a file and if so add suffix
 
     newfilename = outputfolder / f"{formatted_date}_{cam_number}.MP4"
+    
+    suffix_gen = generate_letter_sequence()
+    while newfilename.exists():
+        suffix = next(suffix_gen)
+        newfilename = outputfolder / f"{formatted_date}_{cam_number}_{suffix}.MP4"
+    
     return newfilename
 
 def resize_video(filename, scale, cam_number, outputfolder=None):
