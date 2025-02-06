@@ -8,29 +8,33 @@ This repo currently has a function that is useful for converting files of reinde
 
 When you install keep track of where `tesseract.exe` ends up on your computer as you will need to replace this path in the .py script.
 
-2. Clone the reindeer repository
+2. Install ffmpeg (if you don't already have it)
+
+Easiest (on Windows) is to run `winget install ffmpeg` as it will also add it to your environment path.
+
+3. Clone the reindeer repository
 
 Open an Anaconda/Miniconda command prompt and run
 ```
 git clone https://github.com/jaimemcc/reindeer.git
 ```
 
-3. Create a new environment from the `environment.yml` file
+4. Create a new environment from the `environment.yml` file
 
 Navigate to `reindeer` folder and run the following command
 
 ```
-conda env create -f enviroment.yml
+conda env create -f environment.yml
 ```
 
-4. Tell the script where to find your Tessearct installation
+5. Tell the script where to find your Tessearct installation
 
 Open the file `scripts/videoresize.py` and change the following line so that it points to you version of `tesseract.exe`. It will probably look similar to the one that is already there. If you have doubts or struggle to find it, you can always restart the installer file as it will show you where it's going to install.
 ```
 pytesseract.pytesseract.tesseract_cmd = r'C:\\your\\file\\path\\Tesseract-OCR\\tesseract.exe'
 ```
 
-5. Run the script `scripts/videoresize.py`
+6. Run the script `scripts/videoresize.py`
 
 Navigate to the `scripts` folder, if not already there, and run a line such as the following to process either a whole directory or a single file.
 ```
